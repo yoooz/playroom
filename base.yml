@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  roles:
+    - setup
+    - docker
+    - docker-compose
+    - anyenv
+    - node
+    - java

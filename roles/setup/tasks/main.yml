@@ -1,0 +1,24 @@
+---
+
+- name: set timezone
+  become: yes
+  timezone:
+    name: Asia/Tokyo
+  tags:
+    - setup
+
+- name: change ubuntu repository url
+  become: yes
+  replace:
+    path: /etc/apt/sources.list
+    regexp: 'http://archive.ubuntu.com/ubuntu'
+    replace: 'http://ftp.jaist.ac.jp/pub/Linux/ubuntu/'
+  tags:
+    - setup
+
+- name: update repositories
+  become: yes
+  apt:
+    update_cache: yes
+  tags:
+    - setup

@@ -1,0 +1,31 @@
+---
+
+- name: install anyenv
+  git:
+    repo: https://github.com/riywo/anyenv
+    dest: "{{ anyenv_root }}"
+  tags:
+    - anyenv
+
+- name: initialize
+  shell: |
+    eval "$(anyenv init -)"
+    anyenv install --force-init
+  args:
+    creates: "{{ ansible_env.HOME }}/.config/anyenv/anyenv-install"
+  environment:
+    PATH: "{{ anyenv_root }}/bin:{{ ansible_env.PATH }}"
+  tags:
+    - anyenv
+
+- name: edit bash
+  blockinfile:
+    create: yes
+    dest: /home/vagrant/.bashrc
+    block: |
+      export PATH="{{ ansible_env.HOME }}/.anyenv/bin:{{ ansible_env.PATH }}"
+      eval "$(anyenv init -)"
+    marker: "anyenv"
+  tags:
+    - anyenv
+      

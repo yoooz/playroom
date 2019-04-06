@@ -1,0 +1,17 @@
+wekan:
+  # タグでバージョン指定
+  image: mquandalle/wekan
+  restart: always
+  links:
+    - wekandb
+  environment:
+    - MONGO_URL=mongodb://wekandb/wekan
+    # アクセスするURL
+    - ROOT_URL=http://10.0.2.15:80
+  ports:
+    - 80:8080
+
+wekandb:
+  image: mongo:3.2.21
+  volumes:
+    - /home/vagrant/data:/data/db
